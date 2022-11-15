@@ -1,13 +1,12 @@
 import { Typography } from '@mui/material'
 import { Container } from '@mui/system'
 import { TextField } from '@mui/material'
-import {Button} from '@mui/material'
 import React from 'react'
 import LogoutIcon from '@mui/icons-material/Logout';
 import {IconButton} from '@mui/material';
 import { useSelector } from 'react-redux'
 import SearchIcon from '@mui/icons-material/Search';
-import { useState,useEffect } from 'react'
+import { useState} from 'react'
 
 function Header({searche, setSearche}) {
     

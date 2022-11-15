@@ -1,5 +1,5 @@
-import { Container, Grid, Typography } from '@mui/material'
-import React,{useState, useEffect} from 'react'
+import { Container, Grid, Typography,Pagination } from '@mui/material'
+import React,{useEffect} from 'react'
 import { useDispatch } from 'react-redux'
 import { getData } from '../../action'
 import { useSelector } from 'react-redux'
@@ -11,7 +11,7 @@ function Items({searche}) {
 
     useEffect(() => {
       getData(dispatch)
-    }, [])
+    }, [dispatch])
     
 
   return (
@@ -41,6 +41,12 @@ function Items({searche}) {
                     
                 }
             </Grid>
+            <div style={{display: "flex" , justifyContent: "center", margin: "50px"}}>
+                <div style={{backgroundColor: "white", borderRadius: "3px", padding: "10px"}}>
+                    <Pagination color='primary' count={10} variant="outlined" shape="rounded" />
+                </div>
+                
+            </div> 
         </Container>
     </div>
   )
