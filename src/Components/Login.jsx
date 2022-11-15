@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {InputAdornment} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
@@ -14,7 +15,7 @@ function Login() {
         password: ""
     })
 
-
+    const navigate = useNavigate()
 
   return (
     <div className='Login'>
@@ -47,7 +48,7 @@ function Login() {
                 <Button 
                     onClick={()=>{
                         if((info.password && info.username) !== ""){
-                            
+                            localStorage.setItem("info", JSON.stringify(info))
                         }else{
                             
                         }
