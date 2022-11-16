@@ -1,5 +1,5 @@
 import { Container, Grid, Typography,Pagination } from '@mui/material'
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux'
 import { getData } from '../../action'
 import { useSelector } from 'react-redux'
@@ -9,11 +9,31 @@ function Items({searche}) {
 
     const dispatch = useDispatch()
     const apiData = useSelector(state => state.data)
-    const [modal, setModal] = React.useState(false);
-    const [modalData, setModalData] = React.useState({
+    const [modal, setModal] = useState(false);
+    const [modalData, setModalData] = useState({
         text: "",
         id: ""
     });
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(9)
+    const lastPostIndex = currentPage * postsPerPage
+    const firstPostIndex = lastPostIndex - postsPerPage
+    let pages = []
+
+    const qty = apiData[0]?.filter(item=>{
+        if (searche === "") {
+            
+          return item  
+        } else {
+            return item.body.toLowerCase().includes(searche.toLowerCase()) || item.title.toLowerCase().includes(searche.toLowerCase())
+        }
+    }).length
+
+    for (let index = 0; index < Math.ceil(qty/postsPerPage) ; index++) {
+        pages.push(index)
+        
+    }
 
     useEffect(() => {
       getData(dispatch)
@@ -34,7 +54,7 @@ function Items({searche}) {
                         } else {
                             return item.body.toLowerCase().includes(searche.toLowerCase()) || item.title.toLowerCase().includes(searche.toLowerCase())
                         }
-                    })?.map((item,index)=>{
+                    })?.slice(firstPostIndex,lastPostIndex).map((item,index)=>{
                         return (
                             <Grid key={index} item md={3} sx={{backgroundColor: "rgba(255, 255, 255, 0.7)",cursor: "pointer", borderRadius: "5px",padding: "20px"}}
                                 onClick={()=>{
@@ -59,7 +79,17 @@ function Items({searche}) {
             <AlertDialog modal={modal} setModal={setModal} modalData={modalData}/>
             <div style={{display: "flex" , justifyContent: "center", margin: "50px"}}>
                 <div style={{backgroundColor: "white", borderRadius: "3px", padding: "10px"}}>
-                    <Pagination color='primary' count={10} variant="outlined" shape="rounded" />
+                    <Pagination color='primary' 
+                        hideNextButton
+                        hidePrevButton
+                        onChange={(e)=>{
+
+                            setCurrentPage(Number(e.target.textContent))
+                            window.scroll(0, 0)
+                        
+                        }} 
+                        page={currentPage} count={pages.length} variant="outlined" shape="rounded" 
+                    />
                 </div>
                 
             </div> 
