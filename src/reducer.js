@@ -6,6 +6,13 @@ export const Data = (state=[], action) => {
         case "failed":
             return state = [action.payload]
             break;
+        case "updateContent":
+            
+            const help = state[0].map((item)=>{
+                return item.id === action.id ? {...item, body: action.payload} : item
+            })
+            return state = [help] 
+            break;
     
         default:
             return state
